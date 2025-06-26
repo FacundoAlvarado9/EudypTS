@@ -1,33 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react'
 import './App.css'
+import DatasetEditor from './components/DatasetEditor'
+import type { Dataset } from './types/Dataset'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [reference, setReference] = useState<Dataset | null>(null);
+  const [target, setTarget] = useState<Dataset | null>(null);
+
+  useEffect(() => {     
+    if(reference && target){
+      //For debugging purposes      
+      console.log("target", target);
+      console.log("reference", reference);
+    }
+  }, [reference, target]);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="parent">
+      <div className="child">
+        <DatasetEditor onDatasetChange={setReference}/>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div className="child center-buttons">
+        <div className="top-button">
+          <select name="distance-measure" id="distanceDropdown">
+            <option value="0">Select distance measure</option>
+          </select>
+        </div>  
+        <div className="bottom-button">
+          <button id="compareBtn">Compare</button>
+        </div>              
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div className="child">
+        <DatasetEditor onDatasetChange={setTarget}/>
+      </div>      
+    </div>      
     </>
   )
 }

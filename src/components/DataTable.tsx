@@ -4,6 +4,7 @@ import 'handsontable/styles/handsontable.min.css';
 import 'handsontable/styles/ht-theme-main.min.css';
 import { registerAllModules } from 'handsontable/registry';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import type { CellChange } from 'handsontable/common';
 
 registerAllModules();
 
@@ -30,9 +31,11 @@ export default function DataTable({headers, data, onChange} : DataTableProps){
         }        
     }, [auxData, auxHeaders]);
 
-    const populateTable = (headers, data) => {
-        setAuxData(structuredClone(data));
-        setAuxHeaders(structuredClone(headers));
+    const populateTable = (headers : Array<(number | string)>, data : Array<Array<number>>) => {
+        if(data && headers){
+            setAuxData(structuredClone(data));
+            setAuxHeaders(structuredClone(headers));
+        }        
     }
 
     const propagateChange = useCallback(() => {
@@ -43,7 +46,7 @@ export default function DataTable({headers, data, onChange} : DataTableProps){
         }
     }, [onChange]);
 
-    const onTableChange = useCallback((changes) => {
+    const onTableChange = useCallback((changes : CellChange[] | null) => {
         if(changes){
             propagateChange();
         }
@@ -65,7 +68,7 @@ export default function DataTable({headers, data, onChange} : DataTableProps){
     <div className="ht-theme-main-dark-auto" style={{overflow: 'scroll', height:'50em'}} >
         <HotTable
         ref={hotRef}
-        data={auxData}
+        data={auxData as Array<Array<number>>}
         colHeaders={auxHeaders as Array<string>}
         rowHeaders={true}
         contextMenu={true}

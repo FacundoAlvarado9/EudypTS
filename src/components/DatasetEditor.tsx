@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { Dataset } from "../types/Dataset";
 import parseCSVFile from "../utils/csvParser";
 import FileUploader from "./FileUploader";

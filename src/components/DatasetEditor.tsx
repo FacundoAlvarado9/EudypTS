@@ -10,16 +10,7 @@ type DatasetEditorProps = {
 
 export default function DatasetEditor({ onDatasetChange } : DatasetEditorProps){
 
-    const [parsedData, setParsedData] = useState<Array<Array<number>> | null>(null);
-    const [parsedHeaders, setParsedHeaders] = useState<Array<(number | string)> | null>(null);
-
-    /* const [dataset, setDataset] = useState<Dataset | null>(null);
-
-    useEffect(() => {
-        if(dataset){
-            onDatasetChange(dataset);
-        }        
-    }, [dataset]); */
+    const [parsedDataset, setParsedDataset] = useState<Dataset | null>(null);
 
     const handleFileChange = async (file : File | null) => {
         if (file){
@@ -27,24 +18,22 @@ export default function DatasetEditor({ onDatasetChange } : DatasetEditorProps){
                 const parsedData = await parseCSVFile(file) as { data: object[] };
                 const headers = Object.keys(parsedData.data[0]);
                 const data = parsedData.data.map(obj => Object.values(obj));
-                setParsedHeaders(headers);
-                setParsedData(data);
-                //setDataset({headers: headers, data: data});
+                setParsedDataset({headers: headers, data: data} as Dataset);
             } catch (error) {
                 console.log(error);
             }            
         }
     }
 
-    const onDataChange = (headers : Array<(number | string)>, data : Array<Array<number>>) => {        
-        onDatasetChange({ headers: headers, data: data } as Dataset);
+    const onDataChange = (dataset : Dataset) => {        
+        onDatasetChange(dataset as Dataset);
     }
 
     return (        
         <>        
         <FileUploader onFileChange={handleFileChange}/>
-        {parsedData && parsedHeaders && (<>
-            <DataTable headers={parsedHeaders} data={parsedData} onChange={onDataChange} />
+        {parsedDataset && (<>
+            <DataTable dataset={parsedDataset} onChange={onDataChange} />
         </>)}
         </>
     )

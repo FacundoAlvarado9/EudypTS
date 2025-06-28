@@ -5,36 +5,36 @@ import 'handsontable/styles/ht-theme-main.min.css';
 import { registerAllModules } from 'handsontable/registry';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { CellChange } from 'handsontable/common';
+import type { DataPoint, Dataset, Header } from '../types/Dataset';
 
 registerAllModules();
 
 type DataTableProps = {
-    headers: Array<(number | string)>;
-    data : Array<Array<number>>;
-    onChange : (headers : Array<(number | string)>, data : Array<Array<number>>) => void;
+    dataset : Dataset;
+    onChange : (dataset : Dataset) => void;
 }
 
-export default function DataTable({headers, data, onChange} : DataTableProps){
+export default function DataTable({dataset, onChange} : DataTableProps){
 
     const hotRef = useRef<HotTableRef>(null);
 
-    const [auxData, setAuxData] = useState<Array<Array<number>> | null>(null);
-    const [auxHeaders, setAuxHeaders] = useState<Array<(number | string)> | null>(null);
+    const [auxData, setAuxData] = useState<Array<DataPoint> | null>(null);
+    const [auxHeaders, setAuxHeaders] = useState<Array<Header> | null>(null);
 
     useEffect(() => {
-        populateTable(headers, data);
-    }, [headers, data]);
+        populateTable(dataset);
+    }, [dataset]);
 
     useEffect(() => {
         if(auxData && auxHeaders){
-            onChange(auxHeaders, auxData);
+            onChange({headers: auxHeaders, data: auxData} as Dataset);
         }        
     }, [auxData, auxHeaders]);
 
-    const populateTable = (headers : Array<(number | string)>, data : Array<Array<number>>) => {
-        if(data && headers){
-            setAuxData(structuredClone(data));
-            setAuxHeaders(structuredClone(headers));
+    const populateTable = (dataset : Dataset) => {
+        if(dataset.headers && dataset.data){
+            setAuxData(structuredClone(dataset.data));
+            setAuxHeaders(structuredClone(dataset.headers));
         }        
     }
 
@@ -68,7 +68,7 @@ export default function DataTable({headers, data, onChange} : DataTableProps){
     <div className="ht-theme-main-dark-auto" style={{overflow: 'scroll', height:'50em'}} >
         <HotTable
         ref={hotRef}
-        data={auxData as Array<Array<number>>}
+        data={auxData as Array<DataPoint>}
         colHeaders={auxHeaders as Array<string>}
         rowHeaders={true}
         contextMenu={true}

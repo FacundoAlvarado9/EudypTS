@@ -19,6 +19,7 @@ function App() {
     <>
     <div className="parent">
       <div className="child">
+        <h3>Reference Dataset</h3>
         <DatasetEditor onDatasetChange={setReference}/>
       </div>
       <div className="child center-buttons">
@@ -32,6 +33,7 @@ function App() {
         </div>              
       </div>
       <div className="child">
+        <h3>Target Dataset</h3>
         <DatasetEditor onDatasetChange={setTarget}/>
       </div>      
     </div>      

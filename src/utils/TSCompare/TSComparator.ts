@@ -106,14 +106,6 @@ export class TSComparator implements ITSComparator {
         return floor(mean(candidates));
     }
 
-    private computeWarping(reference : TimeSeries, minimalDistancePath : Array<Array<number>>) : Array<number>{
-        let warping = Array<number>(reference.length);
-        for(let i=0; i<reference.length; i++){
-            warping[i] = this.getBestMatch(i, minimalDistancePath)
-        }
-        return warping;
-    }
-
     private computeDegreeOfMisalignment(misalignment : Array<number>) : Array<number>{
         let dG = Array<number>(misalignment.length);        
         let h = Array<number>(misalignment.length);

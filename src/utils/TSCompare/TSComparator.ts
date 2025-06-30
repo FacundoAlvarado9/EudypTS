@@ -29,7 +29,6 @@ export class TSComparator implements ITSComparator {
 
         const accDistMatrix = this.computeAccumDistMatrix(reference, target);
         const minDistPath = this.findMinimalDistancePath(accDistMatrix);
-        const warpingPath = this.computeWarping(reference, minDistPath);
         const distance = this.computeDistance(reference, target, minDistPath);
         const misalignment = this.computeMisalignment(reference, minDistPath);
         const degreeOfMisalignment = this.computeDegreeOfMisalignment(misalignment);

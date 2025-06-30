@@ -42,7 +42,7 @@ export default function DataTable({dataset, onChange} : DataTableProps){
         const hotInstance = hotRef?.current?.hotInstance;
         if (hotInstance){          
           const newData = hotInstance.getData();
-          setAuxData(newData);
+          setAuxData([...newData]);
         }
     }, [onChange]);
 

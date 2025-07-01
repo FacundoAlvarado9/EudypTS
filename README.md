@@ -1,54 +1,36 @@
-# React + TypeScript + Vite
+# Time-series comparison
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Web App that aims to compare two time-series using a Dynamic-Time-Warping-based technique developed at the Universidad Nacioanl del Sur in Argentina.
 
-Currently, two official plugins are available:
+## Functionalities
+The user should be able to upload their reference and target time-series in .csv format and edit them freely on a data-table. When ready, the user should be able to trigger the comparison after selecting an available distance measure. During comparison, the validity of the time-series will be checked. After validation, the user should be able to visualize the output of the comparison.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Current status
+Currently under development. A current un-finished version is deployed on https://time-series-comparison.vercel.app/. File upload, parsing, and editing are the working pieces as of today.
 
-## Expanding the ESLint configuration
+## Project structure
+This is a React + Typescript project built with Vite. As such, most of the relevant code can be found in the /src directory.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+time-series-comparison
+├── src
+│   ├── /components
+|   ├── /types
+│   ├── /utils
+|   ├── App.tsx
+|   └── ...
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Components
+Components are the main building blocks of React-based applications. They are reusable UI elements that manage their own internal state and logic.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
 ```
+src
+├── /components
+│   ├── FileUploader.tsx
+|   ├── DataTable.tsx
+│   ├── DatasetEditor.tsx
+|- App.tsx
+```
+
+The "main" component, so to say, would be the App.tsx component. It will render two DatasetEditor components. Each DatasetEditor component contains a FileUploader component, to upload the files and manage their parsing, and a DataTable component, which implements a Handsontable data-table (3rd-party library). CSV Parsing is carried out by the utility function parseCSVFile, to be found in the /utils directory, this utility function implements a 3rd-party library called Papaparse.

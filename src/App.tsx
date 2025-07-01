@@ -3,6 +3,7 @@ import './App.css'
 import DatasetEditor from './components/DatasetEditor'
 import type { Dataset } from './types/Dataset'
 import useTSCompare from './hooks/useTSCompare';
+import checkTimeSeries from './utils/TSChecker';
 
 function App() {
   const [reference, setReference] = useState<Dataset | null>(null);
@@ -24,7 +25,12 @@ function App() {
 
   const handleRunComparison = () => {
     if(reference?.data && target?.data){
-      runComparison(reference?.data, target?.data);
+      try {
+        checkTimeSeries(reference.data, target.data);
+        runComparison(reference.data, target.data);
+      } catch (error) {
+        console.log(error);
+      }      
     }    
   }
 
@@ -35,6 +41,7 @@ function App() {
         <h3>Reference Dataset</h3>
         <DatasetEditor onDatasetChange={setReference}/>
       </div>
+
       <div className="child center-buttons">
         <div className="top-button">
           <select name="distance-measure" id="distanceDropdown" onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {handleSelectStrategy(Number(e.target.value))}}>
@@ -45,10 +52,12 @@ function App() {
           <button id="compareBtn" onClick={handleRunComparison}>Compare</button>
         </div>              
       </div>
+
       <div className="child">
         <h3>Target Dataset</h3>
         <DatasetEditor onDatasetChange={setTarget}/>
-      </div>      
+      </div>
+
     </div>      
     </>
   )

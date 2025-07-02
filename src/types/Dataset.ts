@@ -1,8 +1,9 @@
-export type DataPoint = Array<number>;
-
+export type Cell = string;
 export type Header = (number | string);
 
-export type Dataset = {
+export type Row = Array<Cell>;
+
+export type TableData = {
     headers : Array<Header>;
-    data : Array<DataPoint>;
+    data : Array<Row>;
 };

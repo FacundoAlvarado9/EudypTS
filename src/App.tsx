@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import DatasetEditor from './components/DatasetEditor'
-import type { Dataset } from './types/Dataset'
+import type { TableData } from './types/Dataset'
 import useTSCompare from './hooks/useTSCompare';
-import checkTimeSeries from './utils/TSChecker';
 
 function App() {
-  const [reference, setReference] = useState<Dataset | null>(null);
-  const [target, setTarget] = useState<Dataset | null>(null);  
+  const [reference, setReference] = useState<TableData | null>(null);
+  const [target, setTarget] = useState<TableData | null>(null);  
 
   const { availableStrategies, handleSelectStrategy, runComparison, result } = useTSCompare();
 
@@ -26,8 +25,7 @@ function App() {
   const handleRunComparison = () => {
     if(reference?.data && target?.data){
       try {
-        checkTimeSeries(reference.data, target.data);
-        runComparison(reference.data, target.data);
+        runComparison(reference, target);
       } catch (error) {
         console.log(error);
       }      

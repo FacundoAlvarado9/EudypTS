@@ -1,15 +1,13 @@
-import type { NDimensionalPoint } from '../types/TSComparator.types';
-import type { DistanceStrategy } from './IDistanceStrategy';
+import type { NDimensionalPoint } from "../types/TSComparator.types";
+import type { DistanceStrategy } from "./IDistanceStrategy";
+import { PointValidator } from "./validators/PointValidator";
 
-export abstract class AbstractDistanceStrategy implements DistanceStrategy {    
+export abstract class AbstractDistanceStrategy implements DistanceStrategy {
 
-    protected validatePoints(point1 : NDimensionalPoint, point2 : NDimensionalPoint){
-        if(point1.length != point2.length){
-            throw new Error("Points must be of the same dimensionality");
-        } else if(point1.length == 0 || point2.length == 0){
-            throw new Error("Points must not be empty");
-        }
+    protected abstract calculateDistance(point1: NDimensionalPoint, point2: NDimensionalPoint) : number;
+
+    public distance(point1: NDimensionalPoint, point2: NDimensionalPoint): number {
+        PointValidator.validate(point1, point2);
+        return this.calculateDistance(point1, point2);
     }
-
-    public abstract distance(point1: NDimensionalPoint, point2: NDimensionalPoint) : number;
 }

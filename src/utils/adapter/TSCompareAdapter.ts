@@ -1,4 +1,4 @@
-import type { Row, TableData } from "../../types/Dataset";
+import type { Row } from "../../types/Dataset";
 import type { ComparisonResult, DistanceStrategy, NDimensionalPoint, TimeSeries, TSComparator } from "../TSCompare";
 
 

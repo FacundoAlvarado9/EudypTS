@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { UnweightedEuclidean, Manhattan, TSComparator, type ComparisonResult, type TimeSeries } from "../utils/TSCompare";
+import { UnweightedEuclidean, Manhattan, TSComparator, type ComparisonResult } from "../utils/TSCompare";
 import { TSComparatorAdapter, type TargetTSComparator } from "../utils/adapter/TSCompareAdapter";
 import type { TableData } from "../types/Dataset";
 
 export default function useTSCompare(){
 
     const adaptee = useRef<TSComparator | null>(null);
-    const comparator = useRef<TargetTSComparator | null>(null);  
+    const comparator = useRef<TargetTSComparator | null>(null);    
     const availableStrategies = ['euclidean', 'karl-pearson', 'manhattan'];
     const [selectedStrategy, setSelectedStrategy] = useState<number>(0);
 

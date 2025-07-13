@@ -6,18 +6,19 @@ import useTSCompare from './hooks/useTSCompare';
 
 function App() {
   const [reference, setReference] = useState<TableData | null>(null);
-  const [target, setTarget] = useState<TableData | null>(null);  
+  const [target, setTarget] = useState<TableData | null>(null);
 
   const { availableStrategies, handleSelectStrategy, runComparison, result } = useTSCompare();
 
+  // For debugging purposes
   useEffect(() => {     
-    if(reference && target){
-      //For debugging purposes      
+    if(reference && target){  
       console.log("target", target);
       console.log("reference", reference);
     }
   }, [reference, target]);
 
+  // For debugging purposes
   useEffect(() => {
     console.log("Result", result);
   }, [result]);

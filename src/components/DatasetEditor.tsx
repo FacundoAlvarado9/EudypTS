@@ -30,7 +30,7 @@ export default function DatasetEditor({ onDatasetChange } : DatasetEditorProps){
     }
 
     return (        
-        <>        
+        <>
         <FileUploader onFileChange={handleFileChange}/>
         {parsedDataset && (<>
             <DataTable dataset={parsedDataset} onChange={onDataChange} />

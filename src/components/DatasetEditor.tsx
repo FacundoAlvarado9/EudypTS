@@ -6,9 +6,10 @@ import type { TableData } from "../types/Dataset";
 
 type DatasetEditorProps = {
     onDatasetChange : (dataset : TableData) => void;
+    onError : (error : any) => void;
 }
 
-export default function DatasetEditor({ onDatasetChange } : DatasetEditorProps){
+export default function DatasetEditor({ onDatasetChange, onError } : DatasetEditorProps){
 
     const [parsedDataset, setParsedDataset] = useState<TableData | null>(null);
 
@@ -20,7 +21,7 @@ export default function DatasetEditor({ onDatasetChange } : DatasetEditorProps){
                 const data = parsedData.data.map(obj => Object.values(obj));
                 setParsedDataset({headers: headers, data: data} as TableData);
             } catch (error) {
-                console.log(error);
+                onError(error);
             }            
         }
     }

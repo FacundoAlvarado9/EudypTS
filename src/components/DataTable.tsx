@@ -51,13 +51,13 @@ export default function DataTable({dataset, onChange} : DataTableProps){
         }
     }, [propagateChange]);
 
-    const onRemoveCol = useCallback((amount : number) => {
+    const onRemoveCol = useCallback((index : number, amount : number) => {
         if(amount > 0){
             propagateChange();
         }
     },[propagateChange]);
 
-    const onRemoveRow = useCallback((amount : number) => {
+    const onRemoveRow = useCallback((index : number, amount : number) => {
         if(amount > 0){
             propagateChange();
         }
@@ -70,7 +70,7 @@ export default function DataTable({dataset, onChange} : DataTableProps){
         data={auxData as Array<Row>}
         colHeaders={auxHeaders as Array<string>}
         rowHeaders={true}
-        contextMenu={true}
+        contextMenu={["row_above","row_below","remove_col"]}
         columnSorting={false}
         afterChange={onTableChange}
         afterRemoveCol={onRemoveCol} 

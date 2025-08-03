@@ -51,13 +51,13 @@ export default function DataTable({dataset, onChange} : DataTableProps){
         }
     }, [propagateChange]);
 
-    const onRemoveCol = useCallback((index : number, amount : number) => {
+    const onRemoveCol = useCallback((_index : number, amount : number) => {
         if(amount > 0){
             propagateChange();
         }
     },[propagateChange]);
 
-    const onRemoveRow = useCallback((index : number, amount : number) => {
+    const onRemoveRow = useCallback((_index : number, amount : number) => {
         if(amount > 0){
             propagateChange();
         }

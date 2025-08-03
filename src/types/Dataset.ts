@@ -1,5 +1,5 @@
 export type Cell = string;
-export type Header = (number | string);
+export type Header = string;
 
 export type Row = Array<Cell>;
 

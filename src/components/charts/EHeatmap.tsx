@@ -14,10 +14,11 @@ type HeatmapConfig = {
 }
 
 type HeatmapProps = {
+    heatmapName : string;
     heatmapConfig : Array<HeatmapConfig>;
 }
 
-export default function EHeatmap({heatmapConfig} : HeatmapProps){
+export default function EHeatmap({heatmapName, heatmapConfig} : HeatmapProps){
 
     const visMaps : Array<Object> = [];
     const _series : Array<Object> = [];
@@ -55,7 +56,13 @@ export default function EHeatmap({heatmapConfig} : HeatmapProps){
             });
     });
 
-    const option = {        
+    const option = {
+        title: [
+          {
+            left: 'center',
+            text: 'Heatmap for '+ heatmapName
+          },
+        ],
         tooltip: {},
         grid: {
             top: '18%',
@@ -75,8 +82,8 @@ export default function EHeatmap({heatmapConfig} : HeatmapProps){
 
 
     return (<>
-      <div style={{ width: "100%", height: "100%" }}>
-        <ReactECharts option={option}  opts={{renderer: 'svg'}}/>
+      <div style={{ width: "100%", height: "100%", marginTop: "2em" }}>
+        <ReactECharts option={option}  opts={{renderer: 'svg'}} style={{width: "115em", height: "20em"}}/>
       </div>
     </>);
 }

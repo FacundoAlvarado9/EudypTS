@@ -61,6 +61,7 @@ export default function DataTable({dataset, onChange, dataLoadCount} : DataTable
         rowHeaders={true}
         contextMenu={["row_above","row_below","remove_col", "remove_row"]}
         columnSorting={false}
+        autoRowSize={{syncLimit: 27}}
         afterChange={onTableChange}
         afterRemoveCol={onRemoveCol} 
         afterRemoveRow={onRemoveRow}

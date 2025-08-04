@@ -16,7 +16,7 @@ export default function EDetailedView({ result, referenceTable, targetTable } : 
     return(<>
         <EDistanceGraph dimensions={dimensions} source={result} />
         <EMisalignmentGraph dimensions={dimensions} source={result} />
-        <HeatmapPower tableData={referenceTable} />
-        <HeatmapPower tableData={targetTable} />
+        <HeatmapPower name={"Reference"} tableData={referenceTable} />
+        <HeatmapPower name={"Target"} tableData={targetTable} />
     </>);
 }

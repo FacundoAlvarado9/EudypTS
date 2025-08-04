@@ -6,6 +6,7 @@ import './styles/Heatmaps.css';
 import type { TableData } from "../../types/Dataset";
 
 type HeatmapPowerProps = {
+    name : string;
     tableData : TableData;
 }
 
@@ -25,7 +26,7 @@ type HeatmapConfig = {
     scale : Scale;
 }
 
-export default function HeatmapPower({tableData} : HeatmapPowerProps) {
+export default function HeatmapPower({name, tableData} : HeatmapPowerProps) {
     const [hmapConfig, setHmapConfig] = useState<HeatmapConfig[]>([]);
     const [toggled, setToggled] = useState<Boolean>(false);
     const availableScales = exampleScales;
@@ -89,7 +90,7 @@ export default function HeatmapPower({tableData} : HeatmapPowerProps) {
     }
 
     return (<>
-        <EHeatmap heatmapConfig={hmapConfig} />
+        <EHeatmap heatmapName={name} heatmapConfig={hmapConfig} />
         <button className="toggleHeatmapOptions" onClick={() => setToggled(!toggled)}>Heatmap options</button>
         {toggled && tableData.headers.map((header, index) => (
             <div className="heatmapControl" key={header+index.toString()+"div"}>

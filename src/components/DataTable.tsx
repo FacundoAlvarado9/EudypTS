@@ -11,66 +11,55 @@ registerAllModules();
 type DataTableProps = {
     dataset : TableData;
     onChange : (dataset : TableData) => void;
+    dataLoadCount : number;
 }
 
-export default function DataTable({dataset, onChange} : DataTableProps){
+export default function DataTable({dataset, onChange, dataLoadCount} : DataTableProps){
 
     const hotRef = useRef<HotTableRef>(null);
-
-    const [auxData, setAuxData] = useState<Array<Row> | null>(null);
-    const [auxHeaders, setAuxHeaders] = useState<Array<Header> | null>(null);
+    const headersRef = useRef<Header[]>(null)
 
     useEffect(() => {
-        populateTable(dataset);
-    }, [dataset]);
+        headersRef.current = structuredClone(dataset.headers);
+        hotRef.current?.hotInstance?.updateSettings({
+            data: structuredClone(dataset.data),
+            colHeaders: structuredClone(dataset.headers)
+        });
+    }, [dataLoadCount]);
 
-    useEffect(() => {
-        if(auxData && auxHeaders){
-            onChange({headers: auxHeaders, data: auxData} as TableData);
-        }        
-    }, [auxData, auxHeaders]);
-
-    const populateTable = (dataset : TableData) => {
-        if(dataset.headers && dataset.data){
-            setAuxData(structuredClone(dataset.data));
-            setAuxHeaders(structuredClone(dataset.headers));
-        }        
+    const getHotRefData = () => {
+        return hotRef.current?.hotInstance?.getData();
     }
 
-    const propagateChange = useCallback(() => {
-        const hotInstance = hotRef?.current?.hotInstance;
-        if (hotInstance){          
-          const newData = hotInstance.getData();
-          setAuxData([...newData]);
-        }
-    }, [onChange]);
-
     const onTableChange = useCallback((changes : CellChange[] | null) => {
-        if(changes){
-            propagateChange();
-        }
-    }, [propagateChange]);
+        changes?.forEach(([row, prop, oldValue, newValue]) => {
+            const dataClone = structuredClone(hotRef.current?.hotInstance?.getData())!;
+            dataClone[row][Number(prop)] = newValue;
+            onChange({data: dataClone, headers: dataset.headers} as TableData);
+        })
+    }, []);
 
     const onRemoveCol = useCallback((_index : number, amount : number) => {
         if(amount > 0){
-            propagateChange();
+            const headersClone = structuredClone(headersRef.current!);            
+            headersClone.splice(_index, amount);
+            headersRef.current = headersClone;
+            onChange({data: getHotRefData(), headers: headersRef.current!} as TableData);
         }
-    },[propagateChange]);
+    },[]);
 
     const onRemoveRow = useCallback((_index : number, amount : number) => {
         if(amount > 0){
-            propagateChange();
+            onChange({data: getHotRefData(), headers: headersRef.current!} as TableData);
         }
-    }, [propagateChange]);
+    }, []);
 
     return (<>
     <div className="ht-theme-main-dark-auto" style={{overflow: 'scroll', height:'50em'}} >
         <HotTable
         ref={hotRef}
-        data={auxData as Array<Row>}
-        colHeaders={auxHeaders as Array<string>}
         rowHeaders={true}
-        contextMenu={["row_above","row_below","remove_col"]}
+        contextMenu={["row_above","row_below","remove_col", "remove_row"]}
         columnSorting={false}
         afterChange={onTableChange}
         afterRemoveCol={onRemoveCol} 

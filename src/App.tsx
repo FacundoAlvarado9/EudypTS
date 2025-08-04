@@ -76,9 +76,10 @@ function App() {
 
     </div>
     <div>
-      {(result?.status === "Success") && reference && target && (
+      {(result?.status === "Success") && reference && target && (<>
+        <h2>Result: </h2>
         <EDetailedView result={result?.result!} referenceTable={reference} targetTable={target} />
-      )}
+      </>)}
     </div>   
     </>
   )

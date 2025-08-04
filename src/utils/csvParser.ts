@@ -8,13 +8,13 @@ export default function parseCSVFile(file : File){
             skipEmptyLines: true,
             complete: (results) => {
                 if(results.errors.length > 0){
-                    reject(results.errors[0]);
+                    reject(results.errors[0].message);
                 } else{
                     resolve(results);
                 }                
             },
             error: (error) => {
-                reject(error);
+                reject(error.message);
             }
         });
     });

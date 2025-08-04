@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { HotTable, type HotTableRef } from '@handsontable/react-wrapper';
 import { registerAllModules } from 'handsontable/registry';
 import type { CellChange } from 'handsontable/common';
 import 'handsontable/styles/handsontable.min.css';
 import 'handsontable/styles/ht-theme-main.min.css';
-import type { Header, Row, TableData } from '../types/Dataset';
+import type { Header, TableData } from '../types/Dataset';
 
 registerAllModules();
 
@@ -32,7 +32,7 @@ export default function DataTable({dataset, onChange, dataLoadCount} : DataTable
     }
 
     const onTableChange = useCallback((changes : CellChange[] | null) => {
-        changes?.forEach(([row, prop, oldValue, newValue]) => {
+        changes?.forEach(([row, prop, _oldValue, newValue]) => {
             const dataClone = structuredClone(hotRef.current?.hotInstance?.getData())!;
             dataClone[row][Number(prop)] = newValue;
             onChange({data: dataClone, headers: dataset.headers} as TableData);

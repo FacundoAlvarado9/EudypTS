@@ -57,18 +57,8 @@ function App() {
 
     <div className="parent">
       <div className="child">
-        <h3>Reference Dataset</h3>
-        {reference?.headers && 
-          <Dropdown
-            options={[
-              { id: "-1", label: "No timestamp column" },
-              ...reference.headers.map((header, index) => ({ id: index.toString(), label: header }))
-            ]}
-            onChange={(optionId) => setReferenceDateColumn(parseInt(optionId))}
-            id={'referenceDateSelector'}
-          />
-        }        
-        <DatasetEditor onDatasetChange={setReference} onError={setErrorMessage}/>
+        <h3>Reference Dataset</h3>        
+        <DatasetEditor tableName={"reference"} table={reference} onDatasetChange={setReference} onError={setErrorMessage} onChangeDateColumn={setReferenceDateColumn}/>  
       </div>
 
       <div className="child center-buttons">
@@ -80,17 +70,7 @@ function App() {
 
       <div className="child">
         <h3>Target Dataset</h3>
-        {target?.headers && 
-          <Dropdown
-            options={[
-              { id: "-1", label: "No timestamp column" },
-              ...target.headers.map((header, index) => ({ id: index.toString(), label: header }))
-            ]}
-            onChange={(optionId) => setTargetDateColumn(parseInt(optionId))}
-            id={'targetDateSelector'}
-          />
-        }
-        <DatasetEditor onDatasetChange={setTarget} onError={setErrorMessage}/>
+        <DatasetEditor tableName={"target"} table={target} onDatasetChange={setTarget} onError={setErrorMessage} onChangeDateColumn={setTargetDateColumn}/>  
       </div>
 
     </div>      
@@ -99,24 +79,3 @@ function App() {
 }
 
 export default App
-
-/*
-<div className="child">
-        <h3>Reference Dataset</h3>
-        {reference?.headers && <Dropdown elementId={'refDateColSelector'} options={reference.headers} placeholder="None" onChangeSelectedValue={setReferenceDateColumn}/>}        
-        <DatasetEditor onDatasetChange={setReference}/>
-      </div>
-
-      <div className="child center-buttons">
-        <Dropdown elementId={"distanceStrategySelector"} options={availableStrategies} placeholder="Select a strategy..." onChangeSelectedValue={(e: string) => {handleSelectStrategy(availableStrategies.indexOf(e))}}/>
-        <div className="bottom-button">
-          <button id="compareBtn" onClick={handleRunComparison}>Compare</button>
-        </div>              
-      </div>
-
-      <div className="child">
-        <h3>Target Dataset</h3>
-        {target?.headers && <Dropdown elementId={'targetDateColSelector'} options={target.headers} placeholder="None" onChangeSelectedValue={setTargetDateColumn}/>}
-        <DatasetEditor onDatasetChange={setTarget}/>
-      </div>
-*/

@@ -4,6 +4,7 @@ import DatasetEditor from './components/DatasetEditor'
 import type { TableData } from './types/Dataset'
 import useTSCompare from './hooks/useTSCompare';
 import Dropdown from './components/Dropdown';
+import EDetailedView from './components/charts/EDetailedView';
 
 function App() {
   const [reference, setReference] = useState<TableData | null>(null);
@@ -73,7 +74,12 @@ function App() {
         <DatasetEditor tableName={"target"} table={target} onDatasetChange={setTarget} onError={setErrorMessage} onChangeDateColumn={setTargetDateColumn}/>  
       </div>
 
-    </div>      
+    </div>
+    <div>
+      {(result?.status === "Success") && reference && target && (
+        <EDetailedView result={result?.result!} referenceTable={reference} targetTable={target} />
+      )}
+    </div>   
     </>
   )
 }

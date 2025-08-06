@@ -6,6 +6,8 @@ import type { AdaptedResult } from "./Adapter.types";
 export interface ITableDataComparator {
     setStrategy(distanceStrategy : DistanceStrategy) : void;
     runComparison(reference : TableData, target : TableData) : AdaptedResult;
+    setReferenceTimestampColumn(columnIndex : number) : void;
+    setTargetTimestampColumn(columnIndex : number) : void;
 }
 
 export class TableDataComparator implements ITableDataComparator {

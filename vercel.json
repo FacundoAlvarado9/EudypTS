@@ -3,7 +3,8 @@
   "git": {
     "deploymentEnabled": {
       "chore/components-refactoring": true,
-      "feature/visualization": true
+      "feature/visualization": true,
+      "feature/web-workers-for-comparison": true
     }
   }
 }

@@ -1,15 +1,16 @@
-import { useEffect, useRef, useState } from "react";
-import { UnweightedEuclidean, Manhattan, TSComparator } from "../utils/TSCompare";
+import { useRef, useState } from "react";
 import type { TableData } from "../types/Dataset";
-import { TableDataComparator } from "../utils/adapter/TSComparatorAdapter";
+import { TableDataComparator} from "../utils/adapter/TSComparatorAdapter";
 import type { AdaptedResult } from "../utils/adapter/Adapter.types";
+import * as Comlink from 'comlink';
+import type { ComparatorWorkerFactory } from "../workers/factory/WorkerFactory";
+import { EuclideanComparatorFactory } from "../workers/factory/EuclideanComparatorFactory";
 
 export default function useTSCompare(){
 
-    const adaptee = useRef<TSComparator | null>(null);
-    const adapter = useRef<TableDataComparator | null>(null);
-
     const availableStrategies = ['euclidean', 'karl-pearson', 'manhattan'];
+    const workerFactory = useRef<ComparatorWorkerFactory | null>(null);
+
     const [selectedStrategy, setSelectedStrategy] = useState<number>(0);
 
     const [referenceDateColumn, setReferenceDateColumn] = useState<number>(-1);
@@ -17,36 +18,30 @@ export default function useTSCompare(){
 
     const [result, setResult] = useState<AdaptedResult | null>(null);
 
-    useEffect(()  => {
-        adaptee.current = new TSComparator();
-        adapter.current = new TableDataComparator(adaptee.current);
-    }, []);
-
-    useEffect(()  => {
-        adapter.current?.setReferenceTimestampColumn(referenceDateColumn);
-    }, [referenceDateColumn]);
-
-    useEffect(()  => {
-        adapter.current?.setTargetTimestampColumn(targetDateColumn);
-    }, [targetDateColumn]);
-
     const handleSelectStrategy = (index : number) => {
         setSelectedStrategy(index);
     }
 
-    const runComparison = (reference : TableData, target : TableData) => {
+    const runComparison = async (reference : TableData, target : TableData) => {
         switch ( availableStrategies[selectedStrategy] ) {
             case 'euclidean':
-                adapter.current?.setStrategy(new UnweightedEuclidean());
+                workerFactory.current = new EuclideanComparatorFactory();
                 break;
             case 'manhattan':
-                adapter.current?.setStrategy(new Manhattan());
+                workerFactory.current = new EuclideanComparatorFactory();
                 break;
             default:
                 throw new Error("Invalid distance strategy selected.");
                 break;
         }
-        setResult(adapter.current?.runComparison(reference, target) as AdaptedResult);      
+        const worker = workerFactory.current?.create()!;
+        const proxy = Comlink.wrap<TableDataComparator>(worker);
+        proxy?.setReferenceTimestampColumn(referenceDateColumn);
+        proxy?.setTargetTimestampColumn(targetDateColumn);
+        proxy?.runComparison(reference,target).then(res => {
+            setResult(res);
+            worker.terminate();
+        });
     }
 
     return { availableStrategies, handleSelectStrategy, setReferenceDateColumn, setTargetDateColumn, runComparison, result };

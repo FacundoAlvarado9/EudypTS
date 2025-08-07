@@ -3,8 +3,9 @@ import type { TableData } from "../types/Dataset";
 import { TableDataComparator} from "../utils/adapter/TSComparatorAdapter";
 import type { AdaptedResult } from "../utils/adapter/Adapter.types";
 import * as Comlink from 'comlink';
-import type { ComparatorWorkerFactory } from "../workers/factory/WorkerFactory";
-import { EuclideanComparatorFactory } from "../workers/factory/EuclideanComparatorFactory";
+import type { ComparatorWorkerFactory } from "../utils/workers/factory/WorkerFactory";
+import { EuclideanComparatorFactory } from "../utils/workers/factory/EuclideanComparatorFactory";
+import { ManhattanComparatorFactory } from "../utils/workers/factory/ManhattanComparatorFactory";
 
 export default function useTSCompare(){
 
@@ -28,7 +29,7 @@ export default function useTSCompare(){
                 workerFactory.current = new EuclideanComparatorFactory();
                 break;
             case 'manhattan':
-                workerFactory.current = new EuclideanComparatorFactory();
+                workerFactory.current = new ManhattanComparatorFactory();
                 break;
             default:
                 throw new Error("Invalid distance strategy selected.");

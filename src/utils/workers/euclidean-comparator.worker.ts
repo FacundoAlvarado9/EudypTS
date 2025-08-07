@@ -1,6 +1,6 @@
 import * as Comlink from "comlink";
-import { TSComparator, UnweightedEuclidean } from "../utils/TSCompare";
-import { TableDataComparator } from "../utils/adapter/TSComparatorAdapter";
+import { TSComparator, UnweightedEuclidean } from "../TSCompare";
+import { TableDataComparator } from "../adapter/TSComparatorAdapter";
 
 const tsComparatorInstance = new TSComparator();
 const strategy = new UnweightedEuclidean();

@@ -1,6 +1,6 @@
 import * as Comlink from "comlink";
-import { Manhattan, TSComparator } from "../utils/TSCompare";
-import { TableDataComparator } from "../utils/adapter/TSComparatorAdapter";
+import { Manhattan, TSComparator } from "../TSCompare";
+import { TableDataComparator } from "../adapter/TSComparatorAdapter";
 
 const tsComparatorInstance = new TSComparator();
 const strategy = new Manhattan();

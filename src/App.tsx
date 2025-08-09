@@ -5,6 +5,7 @@ import type { TableData } from './types/Dataset'
 import useTSCompare from './hooks/useTSCompare';
 import Dropdown from './components/Dropdown';
 import EDetailedView from './components/charts/EDetailedView';
+import ErrorAlert from './components/error-alert/ErrorAlert';
 
 function App() {
   const [reference, setReference] = useState<TableData | null>(null);
@@ -41,19 +42,17 @@ function App() {
     }
   }
 
-  const blankErrorMessage = () => {
+  const blankErrorMessage = useCallback(() => {
     if(errorMessage){
       setErrorMessage(null);
     }
   }
+  }, [errorMessage]);
 
   return (
     <>
-    {errorMessage && (
-      <div className='error-bar'>
-        <p>Error: {errorMessage}</p>
-        <p onClick={_e => {blankErrorMessage()}} className='underlineOnHover'>[X]</p>
-      </div>
+    {(errorMessage) && (
+      <ErrorAlert message={errorMessage} onClose={blankErrorMessage} />
     )}
 
     <div className="parent">

@@ -1,0 +1,22 @@
+.error-bar {
+  display: flex;
+  flex-direction: row;
+  background: #ffacac;
+  padding: .01em;
+  border-radius: 1em;
+  margin-bottom: 2em;
+}
+
+.error-bar p {
+  color: black;
+  text-align: left;
+  margin-left: 3em;
+}
+
+.underlineOnHover {
+  user-select: none;
+}
+
+.underlineOnHover:hover {
+  text-decoration: underline;
+}

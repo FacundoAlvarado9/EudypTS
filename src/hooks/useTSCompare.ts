@@ -31,10 +31,11 @@ const comparators : Array<StrategyOption> = [
 export default function useTSCompare(){
 
     const availableComparators = useRef<Array<string>>(comparators.map((comparator) => (comparator.name)));
+    const selectedComparator = useRef<number>(0);
+
     const workerFactories = useRef<Map<number, ComparatorWorkerFactory>>(new Map());
     const currentWorker = useRef<Worker | null>(null);
-
-    const [selectedStrategy, setSelectedStrategy] = useState<number>(0);
+    
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -44,7 +45,7 @@ export default function useTSCompare(){
     const [result, setResult] = useState<AdaptedResult | null>(null);
 
     const handleSelectStrategy = useCallback((index : number) => {
-        setSelectedStrategy(index);
+        selectedComparator.current = index;
     }, []);
 
     const blankError = useCallback(() => {
@@ -53,12 +54,10 @@ export default function useTSCompare(){
 
     const compare = useCallback(async (reference : TableData, target : TableData) => {
         setIsLoading(true);
-        if(!workerFactories.current.get(selectedStrategy)){            
-            workerFactories.current.set(selectedStrategy, comparators[selectedStrategy].factory());
-        } else{
-            console.log("Factory was cached! ", comparators[selectedStrategy].name);
+        if(!workerFactories.current.get(selectedComparator.current)){            
+            workerFactories.current.set(selectedComparator.current, comparators[selectedComparator.current].factory());
         }
-        const factory = workerFactories.current.get(selectedStrategy)!;
+        const factory = workerFactories.current.get(selectedComparator.current)!;
         const worker = factory.create();
         currentWorker.current = worker;
         const proxy = Comlink.wrap<TableDataComparator>(worker);
@@ -70,16 +69,13 @@ export default function useTSCompare(){
             setResult(result);
         } catch (error) {
             error instanceof Error ? setError(error.message) : setError("An error has been encountered while running the comparison");
-            console.log("Comparison Runner hook error: ", error);
         } finally {
             setIsLoading(false);
             currentWorker.current.terminate();
             currentWorker.current = null;
-            console.log("Worker terminated x.x", comparators[selectedStrategy].name);
         }
-    }, [isLoading, error, result, referenceDateColumn, targetDateColumn, selectedStrategy]);
+    }, [isLoading, error, result, referenceDateColumn, targetDateColumn, selectedComparator]);
 
-    //return { availableStrategies, handleSelectStrategy, setReferenceDateColumn, setTargetDateColumn, result, compare, error };
     return {
         compare,
         result,

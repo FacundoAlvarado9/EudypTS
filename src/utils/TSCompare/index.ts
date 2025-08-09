@@ -1,6 +1,11 @@
+//Types
 export * from './types/TSComparator.types';
+
+//Helpers
+export * from './utils/StdDevHelper';
+
+//Comparators
 export * from './TSComparator';
-export * from './strategies/IDistanceStrategy';
-export * from './strategies/UnweightedEuclidean';
-export * from './strategies/WeightedEuclidean';
-export * from './strategies/Manhattan';
+export * from './comparators/EuclideanComparator';
+export * from './comparators/KarlPearsonComparator';
+export * from './comparators/ManhattanComparator';

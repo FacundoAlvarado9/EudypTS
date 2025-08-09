@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import './App.css'
 import DatasetEditor from './components/DatasetEditor'
 import type { TableData } from './types/Dataset'
@@ -12,7 +12,17 @@ function App() {
   const [target, setTarget] = useState<TableData | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
-  const { availableStrategies, handleSelectStrategy, setReferenceDateColumn, setTargetDateColumn, runComparison, result } = useTSCompare();
+  const {
+        compare,
+        result,
+        isLoading,
+        error,
+        blankError,
+        handleSelectStrategy,
+        setReferenceDateColumn,
+        setTargetDateColumn,
+        availableComparators
+    } = useTSCompare();
 
   // For debugging purposes
   useEffect(() => {     
@@ -28,6 +38,12 @@ function App() {
   }, [result]);
 
   useEffect(() => {
+    if(error){
+      setErrorMessage(error);
+    }
+  }, [error]);
+
+  useEffect(() => {
     if(result?.status === "Error"){
       setErrorMessage(result.errorMessage);
     }
@@ -36,7 +52,7 @@ function App() {
   const handleRunComparison = () => {
     blankErrorMessage();
     if(reference?.data && target?.data){
-        runComparison(reference, target);
+        compare(reference, target);
     } else {
       setErrorMessage("Comparison cannot be run on empty datasets");
     }
@@ -46,7 +62,9 @@ function App() {
     if(errorMessage){
       setErrorMessage(null);
     }
-  }
+    if(error){
+      blankError();
+    }
   }, [errorMessage]);
 
   return (
@@ -62,9 +80,9 @@ function App() {
       </div>
 
       <div className="child center-buttons">
-        <Dropdown options={availableStrategies.map((strategy, index) => ({ id: index.toString(), label: strategy }))} onChange={(optionId) => handleSelectStrategy(parseInt(optionId))} id={'strategySelector'}/>
+        <Dropdown options={availableComparators.current.map((comparator, index) => ({ id: index.toString(), label: comparator }))} onChange={(optionId) => handleSelectStrategy(parseInt(optionId))} id={'strategySelector'}/>
         <div className="bottom-button">
-          <button id="compareBtn" onClick={handleRunComparison}>Compare</button>
+          <button id="compareBtn" onClick={handleRunComparison} disabled={isLoading}>Compare</button>
         </div>              
       </div>
 

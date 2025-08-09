@@ -1,13 +1,10 @@
-import { hasNumericValue} from "mathjs";
-import type { DistanceStrategy, NDimensionalPoint, TimeSeries, TSComparator } from "../TSCompare";
+import { hasNumericValue } from "mathjs";
 import type { Row, TableData } from "../../types/Dataset";
+import type { NDimensionalPoint, TimeSeries, TSComparator } from "../TSCompare";
 import type { AdaptedResult } from "./Adapter.types";
 
 export interface ITableDataComparator {
-    setStrategy(distanceStrategy : DistanceStrategy) : void;
-    runComparison(reference : TableData, target : TableData) : AdaptedResult;
-    setReferenceTimestampColumn(columnIndex : number) : void;
-    setTargetTimestampColumn(columnIndex : number) : void;
+    compare(reference : TableData, target : TableData) : AdaptedResult;
 }
 
 export class TableDataComparator implements ITableDataComparator {
@@ -38,16 +35,12 @@ export class TableDataComparator implements ITableDataComparator {
         this.targetTimestampCol = columnIndex;
     }
 
-    setStrategy(distanceStrategy: DistanceStrategy): void {
-        this.adaptee.setStrategy(distanceStrategy);
-    }
-
-    runComparison(reference: TableData, target: TableData): AdaptedResult {
+    compare(reference: TableData, target: TableData): AdaptedResult {
         let adaptedResult : AdaptedResult;
         try {
             const referenceTS : TimeSeries = this.convertToTimeSeries(reference, this.refTimestampCol);
             const targetTS : TimeSeries = this.convertToTimeSeries(target, this.targetTimestampCol);            
-            adaptedResult = {status: "Success", result: this.adaptee.runComparison(referenceTS, targetTS)}
+            adaptedResult = {status: "Success", result: this.adaptee.compare(referenceTS, targetTS)}
         } catch (error) {
             let message;
             if(error instanceof Error){
@@ -102,7 +95,7 @@ export class TableDataComparator implements ITableDataComparator {
                         throw new Error("There must be no empty cells.");                    
                     }
                     if(!hasNumericValue(cellContent)){
-                        throw new Error("Cell "+(cellIndex+1)+" at row "+(rowIndex+1)+" must contain numeric values.");
+                        throw new Error("Value for column "+table.headers[cellIndex]+" at row "+(rowIndex+1)+" is not numeric");
                     }
                     const parsedCell = Number(cellContent)
                     point.push(parsedCell);

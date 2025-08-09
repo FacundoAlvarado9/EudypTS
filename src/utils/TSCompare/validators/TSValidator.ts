@@ -1,5 +1,6 @@
 import type { TimeSeries } from "../types/TSComparator.types";
 
+
 export class TSValidator {
     public static validate(reference : TimeSeries, target : TimeSeries) : void {
         if(getConsistentDimensions(reference) != getConsistentDimensions(target)){

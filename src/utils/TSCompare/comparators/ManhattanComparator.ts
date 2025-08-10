@@ -1,16 +1,10 @@
 import { AbstractTSComparator } from "../TSComparator";
-import type { ComparisonResult, NDimensionalPoint, TimeSeries } from "../types/TSComparator.types";
-import { TSValidator } from "../validators/TSValidator";
+import type { NDimensionalPoint } from "../types/TSComparator.types";
 
-export class ManhattanComparator extends AbstractTSComparator{
+export class ManhattanComparator extends AbstractTSComparator{    
 
     constructor(){
         super();
-    }
-
-    compare(reference: TimeSeries, target: TimeSeries): ComparisonResult {
-        TSValidator.validate(reference, target);
-        return this.runComparison(reference, target);
     }
 
     protected distance(point1: NDimensionalPoint, point2: NDimensionalPoint): number {

@@ -63,8 +63,8 @@ export default function useTSCompare(){
         const proxy = Comlink.wrap<TableDataComparator>(worker);
 
         try {
-            proxy.setReferenceTimestampColumn(referenceDateColumn);
-            proxy.setTargetTimestampColumn(targetDateColumn);
+            proxy.setReferenceTimestampColumnIndex(referenceDateColumn);
+            proxy.setTargetTimestampColumnIndex(targetDateColumn);
             const result = await proxy.compare(reference, target);
             setResult(result);
         } catch (error) {

@@ -158,7 +158,7 @@ export abstract class AbstractTSComparator implements TSComparator {
         if(misalignment.length == 1){
             misalignmentDegree[0] = 0;
         } else{
-            misalignment.forEach((value, index) => {
+            misalignment.forEach((_value, index) => {
                 if(index != misalignment.length-1){
                     misalignmentDiscreteDerivative[index] = misalignment[index+1] - misalignment[index];
                 } else {

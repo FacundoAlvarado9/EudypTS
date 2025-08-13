@@ -1,7 +1,7 @@
-import { hasNumericValue } from "mathjs";
 import type { Row, TableData } from "../../types/Dataset";
 import type { NDimensionalPoint, TimeSeries, TSComparator } from "../TSCompare";
 import type { AdaptedResult } from "./Adapter.types";
+import { TableDataValidator } from "./TableDataValidator";
 
 
 export interface ITableDataComparator {
@@ -39,6 +39,7 @@ export class TableDataComparator implements ITableDataComparator {
     compare(reference: TableData, target: TableData): AdaptedResult {
         let adaptedResult : AdaptedResult;
         try {
+            TableDataValidator.validate(reference, target);
             const referenceTS : TimeSeries = this.convertToTimeSeries(reference, this.refTimestampColumnIndex);
             const targetTS : TimeSeries = this.convertToTimeSeries(target, this.targetTimestampColumnIndex);            
             adaptedResult = {status: "Success", result: this.adaptee.compare(referenceTS, targetTS)}
@@ -88,16 +89,10 @@ export class TableDataComparator implements ITableDataComparator {
 
     private parseIntoTimeSeries(table : TableData, timestampColumn : number) : TimeSeries {
         const ts : TimeSeries = [];
-        table.data.forEach((row, rowIndex) => {
+        table.data.forEach((row) => {
             const point : NDimensionalPoint = [];
             row.forEach((cellContent, cellIndex) => {
                 if(cellIndex != timestampColumn){
-                    if(cellContent == ""){
-                        throw new Error("There must be no empty cells.");                    
-                    }
-                    if(!hasNumericValue(cellContent)){
-                        throw new Error("Cell "+cellIndex+" at row "+rowIndex+" must contain numeric values.");
-                    }
                     const parsedCell = Number(cellContent)
                     point.push(parsedCell);
                 }

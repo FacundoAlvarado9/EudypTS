@@ -87,27 +87,3 @@ export default function EHeatmap({heatmapName, heatmapConfig} : HeatmapProps){
       </div>
     </>);
 }
-
-/*<EChart
-style={{height: '400px', width: '1300px'}}
-          style={{
-            height: "400px",
-            width: "1200px",
-          }}
-          tooltip={{}}
-          grid={{
-                left: '10%',
-                right: 150,
-                top: '18%',
-                bottom: (15*Math.ceil(heatmapConfig.length/5)).toString()+'%'
-          }}
-          xAxis={{
-            type: "category",
-            data: _xAxis,
-          }}
-          yAxis={{
-            type: "category",
-          }}
-        visualMap={visMaps}
-          series={_series}
-        /> */

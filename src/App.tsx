@@ -51,11 +51,12 @@ function App() {
 
   const handleRunComparison = () => {
     blankErrorMessage();
-    if(reference?.data && target?.data){
+    compare(reference!, target!);
+    /* if(reference?.data && target?.data){
         compare(reference, target);
     } else {
       setErrorMessage("Comparison cannot be run on empty datasets");
-    }
+    } */
   }
 
   const blankErrorMessage = useCallback(() => {

@@ -39,7 +39,7 @@ export class TableDataComparator implements ITableDataComparator {
     compare(reference: TableData, target: TableData): AdaptedResult {
         let adaptedResult : AdaptedResult;
         try {
-            TableDataValidator.validate(reference, target);
+            TableDataValidator.validate(reference, this.refTimestampColumnIndex, target, this.targetTimestampColumnIndex);
             const referenceTS : TimeSeries = this.convertToTimeSeries(reference, this.refTimestampColumnIndex);
             const targetTS : TimeSeries = this.convertToTimeSeries(target, this.targetTimestampColumnIndex);            
             adaptedResult = {status: "Success", result: this.adaptee.compare(referenceTS, targetTS)}

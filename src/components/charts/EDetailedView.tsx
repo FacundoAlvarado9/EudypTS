@@ -2,7 +2,7 @@ import type { TableData } from "../../types/Dataset";
 import type { ComparisonResult } from "../../utils/TSCompare";
 import EDistanceGraph from "./EDistanceGraph";
 import EMisalignmentGraph from "./EMisalignmentGraph";
-import HeatmapPower from "./HeatmapPower";
+import HeatmapParallelCoord from "./heatmap/HeatmapParallelCoord";
 
 type EDetailedViewProps = {
     result : ComparisonResult;
@@ -16,7 +16,6 @@ export default function EDetailedView({ result, referenceTable, targetTable } : 
     return(<>
         <EDistanceGraph dimensions={dimensions} source={result} />
         <EMisalignmentGraph dimensions={dimensions} source={result} />
-        <HeatmapPower name={"Reference"} tableData={referenceTable} />
-        <HeatmapPower name={"Target"} tableData={targetTable} />
+        <HeatmapParallelCoord reference={referenceTable} target={targetTable} source={result} />
     </>);
 }

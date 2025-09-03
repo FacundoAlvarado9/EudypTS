@@ -2,10 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "git": {
     "deploymentEnabled": {
-      "chore/components-refactoring": true,
-      "feature/visualization": true,
-      "feature/web-workers-for-comparison": true,
-      "refactor/TSCompare-integration": true
+      "feature/parallel-axis-vis": true
     }
   }
 }

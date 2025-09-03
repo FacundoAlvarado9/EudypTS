@@ -35,7 +35,7 @@ export default function DataTable({dataset, onChange, dataLoadCount} : DataTable
         changes?.forEach(([row, prop, _oldValue, newValue]) => {
             const dataClone = structuredClone(hotRef.current?.hotInstance?.getData())!;
             dataClone[row][Number(prop)] = newValue;
-            onChange({data: dataClone, headers: dataset.headers} as TableData);
+            onChange({data: dataClone, headers: headersRef.current!} as TableData);
         })
     }, []);
 

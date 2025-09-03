@@ -28,7 +28,7 @@ export default function DatasetEditor({ tableName, table, onDatasetChange, onErr
                 const headers = Object.keys(parsedData.data[0]);
                 const data = parsedData.data.map(obj => Object.values(obj));
                 increaseParsedFileCount();
-                onDatasetChange({headers: headers, data: data} as TableData);
+                onDatasetChange({headers: [...headers], data: data} as TableData);
             } catch (error) {
                 onError("Parsing error -  " + error);
             }

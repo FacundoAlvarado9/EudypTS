@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { exampleScales } from "../colorscales";
 import ScalePicker from "../ScalePicker";
 import type { HeatmapConfig } from "./Heatmap.types";
+import './Heatmaps.css';
 
 type HeatmapOptionsProps = {
     toggled : Boolean;

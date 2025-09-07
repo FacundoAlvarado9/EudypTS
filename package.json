@@ -14,7 +14,7 @@
     "@types/mathjs": "^9.4.1",
     "comlink": "^4.4.2",
     "echarts": "^6.0.0",
-    "echarts-for-react": "^3.0.2",
+    "echarts-for-react": "^3.0.4",
     "handsontable": "^15.3.0",
     "mathjs": "^14.5.2",
     "react": "^19.1.0",

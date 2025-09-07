@@ -1,21 +1,39 @@
 import type { TableData } from "../../types/Dataset";
-import type { ComparisonResult } from "../../utils/TSCompare";
 import EDistanceGraph from "./EDistanceGraph";
 import EMisalignmentGraph from "./EMisalignmentGraph";
 import HeatmapParallelCoord from "./heatmap/HeatmapParallelCoord";
+import type { AdaptedResult } from "../../utils/adapter/Adapter.types";
+import { useMemo } from "react";
 
 type EDetailedViewProps = {
-    result : ComparisonResult;
+    result : AdaptedResult;
     referenceTable : TableData;
     targetTable : TableData;
 }
 
 export default function EDetailedView({ result, referenceTable, targetTable } : EDetailedViewProps){
-    const dimensions = ["index", "warping", "distance", "misalignment", "degree_of_misalignment"];
 
-    return(<>
-        <EDistanceGraph dimensions={dimensions} source={result} />
-        <EMisalignmentGraph dimensions={dimensions} source={result} />
-        <HeatmapParallelCoord reference={referenceTable} target={targetTable} source={result} />
-    </>);
+    const isResultValid = useMemo(() => {
+        return (result && result.status === "Success" && result.result && result.result.length > 0)
+    }, [result])
+
+    const getDimensions = useMemo(() => {
+        if(isResultValid){
+            return Object.keys(result.result![0]);
+        }        
+    }, [result])
+
+    const tablesAtResult = useMemo(() => {
+        if(isResultValid){
+            return { referenceTable, targetTable };
+        }
+    }, [result])
+
+    return(isResultValid && (
+        <>
+        <EDistanceGraph dimensions={getDimensions!} source={result.result!} />
+        <EMisalignmentGraph dimensions={getDimensions!} source={result.result!} />
+        <HeatmapParallelCoord reference={tablesAtResult!.referenceTable} target={tablesAtResult!.targetTable} source={result.result!} />
+        </>
+    ));
 }

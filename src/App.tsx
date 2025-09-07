@@ -27,8 +27,8 @@ function App() {
   // For debugging purposes
   useEffect(() => {     
     if(reference && target){  
-      console.log("target", target);
-      console.log("reference", reference);
+      //console.log("target", target);
+      //console.log("reference", reference);
     }
   }, [reference, target]);
 
@@ -95,10 +95,11 @@ function App() {
 
     </div>
     <div>
-      {(result?.status === "Success") && reference && target && (<>
-        <h2>Result: </h2>
-        <EDetailedView result={result?.result!} referenceTable={reference} targetTable={target} />
-      </>)}
+      {result && target && reference && (
+        <>
+        <EDetailedView result={result} referenceTable={reference} targetTable={target} />
+        </>
+      )}
     </div>   
     </>
   )

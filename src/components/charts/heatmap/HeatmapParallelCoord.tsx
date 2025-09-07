@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import HeatmapOptions from "./HeatmapOptions";
 import type { TableData } from "../../../types/Dataset";
 import { exampleScales } from "../colorscales";
@@ -32,43 +32,37 @@ export default function HeatmapParallelCoord({reference, target, source} : Heatm
     const [targetHmapConfig, setTargetHmapConfig] = useState<HeatmapConfig[]>([]);
     const [wapingPairs, setWarpingPairs] = useState<Array<WarpingPair>>([]);
 
-    const [toggledRefOps, setToggledRefOps] = useState<Boolean>(false);
+    const [loading, setLoading] = useState<Boolean>(false);
     const [toggledTargetOps, setToggledTargetOps] = useState<Boolean>(false);
+    const [toggledRefOps, setToggledRefOps] = useState<Boolean>(false);
 
     useEffect(() => {
-        setRefHmapConfig(initializeRefHeatmap)
-    }, [reference]);
+        setLoading(true);
 
-    useEffect(() => {
-        setTargetHmapConfig(initializeTargetHeatmap);
-    }, [target]);
+        setRefHmapConfig([...initializeHeatmap(reference)]);
+        setTargetHmapConfig(initializeHeatmap(target));
+        setWarpingPairs(() => {
+            return source.map((entry, index) => ({n: index, f_n: entry.warping, d_o_g: entry.degree_of_misalignment} as WarpingPair));        
+        });        
+        setLoading(false);
+        console.log("ref config", refHmapConfig);
+    }, [source, reference, target]);
 
-    useEffect(() => {    
-        setWarpingPairs(computeWarpingPairs);
-    }, [source]);
-
-    const initializeRefHeatmap = useMemo(() => initializeHeatmap(reference), [reference]);
-    const initializeTargetHeatmap = useMemo(() => initializeHeatmap(target), [target]);
-
-    const computeWarpingPairs = useMemo(() => {
-        return source.map((entry, index) => 
-            ({n: index, f_n: entry.warping, d_o_g: entry.degree_of_misalignment} as WarpingPair)
-        );
-    }, [source]);
+    const toggleTargetOps = useCallback(() => {
+        setToggledTargetOps(prev => !prev);
+    }, []);
 
     const toggleRefOps = useCallback(() => {
         setToggledRefOps(prev => !prev);
     }, []);
 
-    const toggleTargetOps = useCallback(() =>{
-        setToggledTargetOps(prev => !prev);
-    }, []);
-
     return (<>
+        {!loading && (<>        
         <HeatmapOptions toggled={toggledRefOps} headers={reference.headers} hmapConfig={refHmapConfig} setHmapConfig={setRefHmapConfig}/>
-        <button className="toggleHeatmapOptions" onClick={toggleRefOps}>Ref. heatmap options</button>        
+        <button className="toggleHeatmapOptions" onClick={toggleRefOps}>Ref. heatmap options</button>
         <EHeatmapParallelCoord refHmapConfig={refHmapConfig} targetHmapConfig={targetHmapConfig} warpingPairs={wapingPairs} />
         <button className="toggleHeatmapOptions" onClick={toggleTargetOps}>Target heatmap options</button>
         <HeatmapOptions toggled={toggledTargetOps} headers={target.headers} hmapConfig={targetHmapConfig} setHmapConfig={setTargetHmapConfig}/>
+        </>)}
     </>)
 }

@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 import { exampleScales } from "../colorscales";
-import ScalePicker from "../ScalePicker";
 import type { HeatmapConfig } from "./Heatmap.types";
 import './Heatmaps.css';
+import Dropdown from "../../Dropdown";
 
 type HeatmapOptionsProps = {
     toggled : Boolean;
@@ -37,7 +37,7 @@ export default function HeatmapOptions({toggled, headers, hmapConfig, setHmapCon
             <p className="heatmapName">{header}</p>
             <p>Min: </p>
             <input type="number" name="" id="" onChange={(e) => updateHmapConfigValue(index, 'min', getParsedFloatOrDefault(e.target.value, hmapConfig[index].defaultMin))}/>
-            <ScalePicker key={header+index.toString()} selectId={header+"ScaleSelector"} scales={exampleScales} onChange={(scaleId) => onSelectScale(index, parseInt(scaleId))} />
+            <Dropdown id={header+"ScaleSelector"} options={exampleScales.map((scale, index) => ({ id: index.toString(), label: scale.name }))} onChange={e => onSelectScale(index, parseInt(e))} value={"0"}/>
             <p>Max: </p>
             <input type="number" name="" id="" onChange={(e) => updateHmapConfigValue(index, 'max', getParsedFloatOrDefault(e.target.value, hmapConfig[index].defaultMax))}/>                
         </div>  

@@ -141,7 +141,7 @@ export default function EHeatmapParallelCoord({refHmapConfig, targetHmapConfig, 
                 ], 
                 xAxis: [
                     {gridIndex: 0, type: 'category', data: getRefHmap[0]?.data.map((_, index) => index), axisLabel: {show: false}},
-                    {gridIndex: 1, type: 'value', min: 0, max: getWarpingChart.length, splitLine:{show:false}},
+                    {gridIndex: 1, type: 'value', min: 0, max: getWarpingChart.length, splitLine:{show:false}, axisLabel: {show: false}},
                     {gridIndex: 2, type: 'category', data: getTargetHmap[0]?.data.map((_, index) => index)}
                 ],
                 yAxis: [

@@ -1,6 +1,7 @@
 import ReactECharts from 'echarts-for-react';
 import { useMemo } from 'react';
 import type { HeatmapConfig, WarpingPair } from './Heatmap.types';
+import { exampleScales } from '../colorscales';
 
 type auxProps = {
     refHmapConfig : HeatmapConfig[];
@@ -97,7 +98,7 @@ export default function EHeatmapParallelCoord({refHmapConfig, targetHmapConfig, 
                     top: (10*(Math.floor((config.id)/5))).toString()+'%',
                     text: ["",config.name],
                     inRange: {
-                    color: config.scale.scale,
+                    color: exampleScales[config.scaleIndex].scale,
                     },
                     formatter: function (value: string) {
                     return value;
@@ -120,7 +121,7 @@ export default function EHeatmapParallelCoord({refHmapConfig, targetHmapConfig, 
                     bottom: (10*(Math.floor((config.id)/5))).toString()+'%',
                     text: ["",config.name],
                     inRange: {
-                        color: config.scale.scale,
+                        color: exampleScales[config.scaleIndex].scale,
                     },
                     formatter: function (value: string) {
                         return value;

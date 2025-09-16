@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import HeatmapOptions from "./HeatmapOptions";
 import type { TableData } from "../../../types/Dataset";
-import { exampleScales } from "../colorscales";
 import type { HeatmapConfig, VisEntry, WarpingPair } from "./Heatmap.types";
 import EHeatmapParallelCoord from "./EHeatmapParallelCoord";
 
@@ -23,7 +22,7 @@ function initializeHeatmap(table : TableData){
                     max: maxValue,
                     defaultMin: minValue,
                     defaultMax: maxValue,
-                    scale: exampleScales[0]} as HeatmapConfig);
+                    scaleIndex: 0} as HeatmapConfig);
         });
 }
 
@@ -39,13 +38,12 @@ export default function HeatmapParallelCoord({reference, target, source} : Heatm
     useEffect(() => {
         setLoading(true);
 
-        setRefHmapConfig([...initializeHeatmap(reference)]);
+        setRefHmapConfig(initializeHeatmap(reference));
         setTargetHmapConfig(initializeHeatmap(target));
         setWarpingPairs(() => {
             return source.map((entry, index) => ({n: index, f_n: entry.warping, d_o_g: entry.degree_of_misalignment} as WarpingPair));        
         });        
         setLoading(false);
-        console.log("ref config", refHmapConfig);
     }, [source, reference, target]);
 
     const toggleTargetOps = useCallback(() => {
@@ -58,11 +56,11 @@ export default function HeatmapParallelCoord({reference, target, source} : Heatm
 
     return (<>
         {!loading && (<>        
-        <HeatmapOptions toggled={toggledRefOps} headers={reference.headers} hmapConfig={refHmapConfig} setHmapConfig={setRefHmapConfig}/>
+        <HeatmapOptions toggled={toggledRefOps} hmapConfig={refHmapConfig} setHmapConfig={setRefHmapConfig}/>
         <button className="toggleHeatmapOptions" onClick={toggleRefOps}>Ref. heatmap options</button>
         <EHeatmapParallelCoord refHmapConfig={refHmapConfig} targetHmapConfig={targetHmapConfig} warpingPairs={wapingPairs} />
         <button className="toggleHeatmapOptions" onClick={toggleTargetOps}>Target heatmap options</button>
-        <HeatmapOptions toggled={toggledTargetOps} headers={target.headers} hmapConfig={targetHmapConfig} setHmapConfig={setTargetHmapConfig}/>
+        <HeatmapOptions toggled={toggledTargetOps} hmapConfig={targetHmapConfig} setHmapConfig={setTargetHmapConfig}/>
         </>)}
     </>)
 }

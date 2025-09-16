@@ -1,34 +1,33 @@
 import { useCallback, useEffect, useState } from 'react'
 import './App.css'
 import DatasetEditor from './components/DatasetEditor'
-import type { TableData } from './types/Dataset'
 import useTSCompare from './hooks/useTSCompare';
 import Dropdown from './components/Dropdown';
 import EDetailedView from './components/charts/EDetailedView';
 import ErrorAlert from './components/error-alert/ErrorAlert';
 
 function App() {
-  const [reference, setReference] = useState<TableData | null>(null);
-  const [target, setTarget] = useState<TableData | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const {
-        compare,
-        result,
-        isLoading,
-        error,
-        blankError,
-        handleSelectStrategy,
-        setReferenceDateColumn,
-        setTargetDateColumn,
-        availableComparators
+      reference,
+      setReference,
+      target,
+      setTarget,
+      compare,
+      result,
+      isLoading,
+      handleSelectStrategy,
+      setReferenceDateColumn,
+      setTargetDateColumn,
+      availableComparators
     } = useTSCompare();
 
   // For debugging purposes
   useEffect(() => {     
     if(reference && target){  
-      //console.log("target", target);
-      //console.log("reference", reference);
+      console.log("target", target);
+      console.log("reference", reference);
     }
   }, [reference, target]);
 
@@ -36,12 +35,6 @@ function App() {
   useEffect(() => {
     console.log("Result", result);
   }, [result]);
-
-  useEffect(() => {
-    if(error){
-      setErrorMessage(error);
-    }
-  }, [error]);
 
   useEffect(() => {
     if(result?.status === "Error"){
@@ -56,17 +49,12 @@ function App() {
     } else if(!target){
       setErrorMessage("There is no target dataset");
     } else{
-      compare(reference, target);
+      compare();
     }    
   }
 
   const blankErrorMessage = useCallback(() => {
-    if(errorMessage){
-      setErrorMessage(null);
-    }
-    if(error){
-      blankError();
-    }
+    setErrorMessage(null);
   }, [errorMessage]);
 
   return (

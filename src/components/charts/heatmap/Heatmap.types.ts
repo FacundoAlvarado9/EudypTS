@@ -11,7 +11,7 @@ export type HeatmapConfig = {
     max : number;
     defaultMin : number;
     defaultMax : number;
-    scale : Scale;
+    scaleIndex : number;
 }
 
 export type WarpingPair = {

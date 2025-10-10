@@ -1,6 +1,5 @@
 import App from "./App";
-import { appDependencies } from "./context/Dependencies";
-import { DependenciesProvider } from "./context/DependenciesContext";
+import { appDependencies, DependenciesProvider } from "./context";
 
 export const Root = () => {
     return(

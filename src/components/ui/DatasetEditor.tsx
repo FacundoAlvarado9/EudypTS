@@ -1,9 +1,9 @@
 import { useState } from "react";
-import parseCSVFile from "../../utils/csvParser";
-import FileUploader from "./FileUploader";
 import DataTable from "./DataTable";
-import type { TableData } from "../../types/TableData.types";
+import FileUploader from "./FileUploader";
 import DateColumnSelector from "./DateColumnSelector";
+import type { TableData } from "../../types/TableData.types";
+import { useDependencies } from "../../context/DependenciesContext";
 
 type DatasetEditorProps = {
     tableName : string; 
@@ -16,6 +16,7 @@ type DatasetEditorProps = {
 export default function DatasetEditor({ tableName, table, onDatasetChange, onError, onChangeDateColumn } : DatasetEditorProps){
 
     const [parsedFileCount, setParsedLoadCount] = useState<number>(0);
+    const { parseCSVFile } = useDependencies();
 
     const increaseParsedFileCount = () => {
         setParsedLoadCount(parsedFileCount+1);

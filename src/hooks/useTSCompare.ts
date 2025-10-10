@@ -1,34 +1,9 @@
 import * as Comlink from 'comlink';
 import type { TableData } from '../types';
 import { useCallback, useMemo, useRef, useState } from "react";
+import type { ComparatorWorkerFactory } from '../utils/workers';
+import { useDependencies } from '../context/DependenciesContext';
 import { type AdaptedResult, TableDataComparator } from "../utils/adapter";
-import{ 
-    EuclideanComparatorFactory,
-    ComparatorWorkerFactory,
-    KarlPearsonComparatorFactory,
-    ManhattanComparatorFactory
-} from "../utils/workers";
-
-
-type StrategyOption = {
-    name : string,
-    factory : () => ComparatorWorkerFactory;
-}
-
-const comparators : Array<StrategyOption> = [
-    {
-        name: "Euclidean",
-        factory: () => new EuclideanComparatorFactory()
-    },
-    {
-        name: "Manhattan",
-        factory: () => new ManhattanComparatorFactory()
-    },
-    {
-        name: "Karl-Pearson",
-        factory: () => new KarlPearsonComparatorFactory()
-    }
-];
 
 export default function useTSCompare(){
 
@@ -36,11 +11,12 @@ export default function useTSCompare(){
     const [target, setTarget] = useState<TableData | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [result, setResult] = useState<AdaptedResult | null>(null);
+    const { factories } = useDependencies();
 
     const referenceDateColumn = useRef<number>(-1);
     const targetDateColumn = useRef<number>(-1);
 
-    const availableComparators = useRef<Array<string>>(comparators.map((comparator) => (comparator.name)));
+    const availableComparators = useRef<Array<string>>(factories.map((comparator) => (comparator.name)));
     const selectedComparator = useRef<number>(0);
 
     const workerFactories = useRef<Map<number, ComparatorWorkerFactory>>(new Map());
@@ -82,7 +58,7 @@ export default function useTSCompare(){
         if(needsReRun()){
             setIsLoading(true);
             if(!workerFactories.current.get(selectedComparator.current)){            
-                workerFactories.current.set(selectedComparator.current, comparators[selectedComparator.current].factory());
+                workerFactories.current.set(selectedComparator.current, factories[selectedComparator.current].factory());
             }
             const factory = workerFactories.current.get(selectedComparator.current)!;
             const worker = factory.create();

@@ -275,7 +275,7 @@ In order to run the potentially time- and memory-complex calculations of the Dyn
 ```ts
 import * as Comlink from "comlink";
 import { EuclideanComparator } from "../TSCompare";
-import { TableDataComparator } from "../adapter/TSComparatorAdapter";
+import { TableDataComparator } from "../adapter/TableDataComparator";
 
 const euclideanComparator = new EuclideanComparator();
 const comparator = new TableDataComparator(euclideanComparator);
@@ -374,7 +374,7 @@ You may add the worker as ``chebyshev-comparator.worker.ts`` in the ``/src/utils
 //chebyshev-comparator.worker.ts
 import * as Comlink from "comlink";
 import { ChebyshevComparator } from "../TSCompare";
-import { TableDataComparator } from "../adapter/TSComparatorAdapter";
+import { TableDataComparator } from "../adapter/TableDataComparator";
 
 const chebyshevComparator = new ChebyshevComparator();
 const comparator = new TableDataComparator(chebyshevComparator);

@@ -1,8 +1,13 @@
 import * as Comlink from 'comlink';
-import type { TableData } from "../types/Dataset";
+import type { TableData } from '../types';
 import { useCallback, useMemo, useRef, useState } from "react";
-import type { AdaptedResult, TableDataComparator } from "../utils/adapter";
-import { type ComparatorWorkerFactory, EuclideanComparatorFactory, KarlPearsonComparatorFactory, ManhattanComparatorFactory } from "../utils/workers";
+import { type AdaptedResult, TableDataComparator } from "../utils/adapter";
+import{ 
+    EuclideanComparatorFactory,
+    ComparatorWorkerFactory,
+    KarlPearsonComparatorFactory,
+    ManhattanComparatorFactory
+} from "../utils/workers";
 
 
 type StrategyOption = {

@@ -1,4 +1,4 @@
-import type { TableData } from "../../types/Dataset";
+import type { TableData } from "../../types/TableData.types";
 
 export class TableDataValidator {
     public static validate(reference : TableData, refTimestampColumnIndex : number, target : TableData, targetTimestampColumnIndex : number) : void {

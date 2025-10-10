@@ -1,4 +1,4 @@
-import type { Row, TableData } from "../../types/Dataset";
+import type { Row, TableData } from "../../types/TableData.types";
 import type { NDimensionalPoint, TimeSeries, TSComparator } from "../TSCompare";
 import type { AdaptedResult } from "./Adapter.types";
 import { TableDataValidator } from "./TableDataValidator";

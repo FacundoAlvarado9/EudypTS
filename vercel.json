@@ -2,7 +2,8 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "git": {
     "deploymentEnabled": {
-      "feature/memoize-result": true
+      "feature/memoize-result": true,
+      "refactor/dependency-injection": true
     }
   }
 }

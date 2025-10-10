@@ -267,7 +267,7 @@ A status variable is included in order to facilitate error handling in the React
 
 The ``ITableDataComparator`` is then implemented by the ``TableDataComparator`` class, which keeps a TSComparator instance (see section 3.2.1.2.) as the``adaptee``. It also keeps record of the index of the _timestamp columns_ for both the _reference_ and _target_ ``TableData``, and exposes the corresponding methods to update them. The ``TableDataComparator`` class is responsible for checking the validity of the datasets as time-series, convert them into time-series, and then delegates the comparison to the ``adaptee``.
 
-![Class Diagram](/img/tscomp_class.png)
+![Class Diagram](/readme-img/tscomp_class.png)
 
 ### 3.2.3. Web-workers
 In order to run the potentially time- and memory-complex calculations of the Dynamic-Time-Warping-based comparison technique in a thread other than the UI thread, Web-Workers were implemented. Each of these web-workers create an instance of a specific ``TSComparator`` and loads it as an adaptee to an instance of ``TableDataComparator``, it then exposes the methods of this last object to the main-thread. Comlink abstracts the RPC (Remote-Procedure-Call) logic behind working with web-workers.
@@ -321,7 +321,7 @@ Let us now add a new distance measure: the Chebyshev distance
 
 The Chebyshev distance measures the distance between two multi-dimensional points as the greatest absolute difference along any coordinate dimension.
 
-![Chebyshev Distance](/img/chebyshev.png)
+![Chebyshev Distance](/readme-img/chebyshev.png)
 
 ### 3.4.1. Implement the specific comparator
 Considering the specifics of the technique, this could be an implementation (good enough for our simple tutorial)

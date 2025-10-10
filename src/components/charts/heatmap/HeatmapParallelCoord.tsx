@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import HeatmapOptions from "./HeatmapOptions";
-import type { TableData } from "../../../types/Dataset";
+import type { TableData } from "../../../types/TableData.types";
 import type { HeatmapConfig, VisEntry, WarpingPair } from "./Heatmap.types";
 import EHeatmapParallelCoord from "./EHeatmapParallelCoord";
 

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import parseCSVFile from "../utils/csvParser";
+import parseCSVFile from "../../utils/csvParser";
 import FileUploader from "./FileUploader";
 import DataTable from "./DataTable";
-import type { TableData } from "../types/Dataset";
+import type { TableData } from "../../types/TableData.types";
 import DateColumnSelector from "./DateColumnSelector";
 
 type DatasetEditorProps = {

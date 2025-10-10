@@ -1,4 +1,4 @@
-import type { TableData } from "../types/Dataset"
+import type { TableData } from "../../types/TableData.types"
 import Dropdown from "./Dropdown";
 
 type DateColumnSelectorProps = {

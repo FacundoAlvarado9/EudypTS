@@ -1,10 +1,8 @@
-import { useCallback, useEffect, useState } from 'react'
-import './App.css'
-import DatasetEditor from './components/DatasetEditor'
+import { useCallback, useEffect, useState } from 'react';
+import { DatasetEditor, Dropdown, ErrorAlert } from './components/ui';
+import { EDetailedView } from './components/charts';
 import useTSCompare from './hooks/useTSCompare';
-import Dropdown from './components/Dropdown';
-import EDetailedView from './components/charts/EDetailedView';
-import ErrorAlert from './components/error-alert/ErrorAlert';
+import './App.css'
 
 function App() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)

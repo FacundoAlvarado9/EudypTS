@@ -1,4 +1,4 @@
-import type { TableData } from "../../types/Dataset";
+import type { TableData } from "../../types/TableData.types";
 import EDistanceGraph from "./EDistanceGraph";
 import EMisalignmentGraph from "./EMisalignmentGraph";
 import HeatmapParallelCoord from "./heatmap/HeatmapParallelCoord";

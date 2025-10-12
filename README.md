@@ -1,5 +1,4 @@
 # EudypTS
-- [EudypTS](#eudypts)
 - [1. Project Overview](#1-project-overview)
 - [2. Set-up and installation](#2-set-up-and-installation)
   - [2.1. Prerequisites](#21-prerequisites)
@@ -28,8 +27,6 @@
     - [3.4.3. Implement a Factory for it](#343-implement-a-factory-for-it)
     - [3.4.4. Add it to the app dependencies](#344-add-it-to-the-app-dependencies)
 - [References](#references)
-
-
 
 # 1. Project Overview
 The EudypTS web-application allows for the comparison of two time-series using a visual comparison technique developed at the Universidad Nacional del Sur in Argentina [1]. Users can upload both a _reference_ and _target_ time-series dataset in CSV format, pre-process/edit them, select an appropriate distance measure, and then visualize their comparison using the aforementioned technique.

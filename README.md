@@ -33,7 +33,7 @@ The EudypTS web-application allows for the comparison of two time-series using a
 
 EudypTS is a React web-application implemented with Typescript, built with Vite, and with NPM as the package-manager. Other libraries used in the project include Echarts for data visualization and interaction; Handsontable for interactive data-tables; and Comlink for web-workers.
 
-The following is a developer's guide to the EudypTS project and provides a general overview on the codebase for this project. For a guide on how to use the web-application, refer to the [project's user guide](/user-guide/EudypTS_User-guide.pdf). For a thorough insight on the project's purpose and development, refer to the [main article related to the project](https://google.com).
+The following is a developer's guide to the EudypTS project and provides a general overview on the codebase for this project. For a guide on how to use the web-application, refer to the [project's user guide](/user-guide/EudypTS_User-guide.pdf). For a thorough insight on the project's purpose and development, refer to the [main article related to the project](/user-guide/original-article.pdf).
 
 # 2. Set-up and installation
 This section explores the different ways to set-up the project for local development

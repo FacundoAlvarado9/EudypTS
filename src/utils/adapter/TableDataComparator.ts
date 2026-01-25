@@ -23,7 +23,7 @@ export class TableDataComparator implements ITableDataComparator {
         if(targetTimestampColumnIndex){
             this.targetTimestampColumnIndex = targetTimestampColumnIndex;
         } else {
-            this.refTimestampColumnIndex = -1;
+            this.targetTimestampColumnIndex = -1;
         }
         this.adaptee = adaptee;
     }
